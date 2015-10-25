@@ -1,13 +1,13 @@
+/**
+ * Created by saj on 22/12/14.
+ */
+
 package it.jaschke.alexandria.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-/**
- * Created by saj on 22/12/14.
- */
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -40,19 +40,12 @@ public class DbHelper extends SQLiteOpenHelper {
                 " FOREIGN KEY (" + AlexandriaContract.CategoryEntry._ID + ") REFERENCES " +
                 AlexandriaContract.BookEntry.TABLE_NAME + " (" + AlexandriaContract.BookEntry._ID + "))";
 
-
-        Log.d("sql-statments",SQL_CREATE_BOOK_TABLE);
-        Log.d("sql-statments",SQL_CREATE_AUTHOR_TABLE);
-        Log.d("sql-statments",SQL_CREATE_CATEGORY_TABLE);
-
         db.execSQL(SQL_CREATE_BOOK_TABLE);
         db.execSQL(SQL_CREATE_AUTHOR_TABLE);
         db.execSQL(SQL_CREATE_CATEGORY_TABLE);
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 }

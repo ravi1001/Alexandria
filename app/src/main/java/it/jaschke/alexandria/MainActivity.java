@@ -19,23 +19,18 @@ import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
 
-
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment navigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence title;
-    public static boolean IS_TABLET = false;
-    private BroadcastReceiver messageReciever;
-
-    public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
+    public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
+
+    public static boolean IS_TABLET = false;
+
+    // Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    // Used to store the last screen mTitle. For use in {@link #restoreActionBar()}.
+    private CharSequence mTitle;
+    private BroadcastReceiver mMessageReciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +42,17 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             setContentView(R.layout.activity_main);
         }
 
-        messageReciever = new MessageReciever();
+        mMessageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever,filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReciever,filter);
 
-        navigationDrawerFragment = (NavigationDrawerFragment)
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        title = getTitle();
+        mTitle = getTitle();
 
         // Set up the drawer.
-        navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
@@ -77,30 +72,28 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             case 2:
                 nextFragment = new About();
                 break;
-
         }
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment)
-                .addToBackStack((String) title)
+                .addToBackStack((String) mTitle)
                 .commit();
     }
 
     public void setTitle(int titleId) {
-        title = getString(titleId);
+        mTitle = getString(titleId);
     }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(title);
+        actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!navigationDrawerFragment.isDrawerOpen()) {
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
@@ -128,7 +121,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReciever);
         super.onDestroy();
     }
 
@@ -146,15 +139,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(id, fragment)
-                .addToBackStack("Book Detail")
+                .addToBackStack(getString(R.string.book_detail))
                 .commit();
-
     }
 
     private class MessageReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra(MESSAGE_KEY)!=null){
+            if(intent.getStringExtra(MESSAGE_KEY)!= null){
                 Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
             }
         }
@@ -166,13 +158,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     private boolean isTablet() {
         return (getApplicationContext().getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()<2){
+        if(getSupportFragmentManager().getBackStackEntryCount() < 2){
             finish();
         }
         super.onBackPressed();

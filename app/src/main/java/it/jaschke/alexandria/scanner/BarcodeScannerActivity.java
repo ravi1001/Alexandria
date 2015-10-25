@@ -28,6 +28,10 @@ import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
+/**
+ * Scans the barcode and sends the result back. Uses the ZBar library for the barcode
+ * scanning functionality.
+ */
 public class BarcodeScannerActivity extends Activity implements ZBarScannerView.ResultHandler {
 
     // Reference to the scanner view.
@@ -79,7 +83,7 @@ public class BarcodeScannerActivity extends Activity implements ZBarScannerView.
 
         // Put scan result data into intent.
         scanResultIntent.putExtra(getString(R.string.scan_format), scanResult.getBarcodeFormat().getName());
-        scanResultIntent.putExtra(getString(R.string.scan_content), scanResult.getContents());
+        scanResultIntent.putExtra(getString(R.string.scan_contents), scanResult.getContents());
 
         // Set the result and finish.
         setResult(RESULT_OK, scanResultIntent);

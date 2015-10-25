@@ -1,3 +1,7 @@
+/**
+ * Created by saj on 24/12/14.
+ */
+
 package it.jaschke.alexandria.data;
 
 import android.content.ContentProvider;
@@ -8,11 +12,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
-/**
- * Created by saj on 24/12/14.
- */
+import it.jaschke.alexandria.R;
+
 public class BookProvider extends ContentProvider {
 
     private static final int BOOK_ID = 100;
@@ -41,7 +43,6 @@ public class BookProvider extends ContentProvider {
                 " LEFT OUTER JOIN " +  AlexandriaContract.CategoryEntry.TABLE_NAME + " USING (" +AlexandriaContract.BookEntry._ID + ")");
     }
 
-
     private static UriMatcher buildUriMatcher() {
 
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -65,7 +66,6 @@ public class BookProvider extends ContentProvider {
     public boolean onCreate() {
         dbHelper = new DbHelper(getContext());
         return true;
-
     }
 
     @Override
@@ -171,15 +171,13 @@ public class BookProvider extends ContentProvider {
                         sortOrder);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri);
         }
 
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return retCursor;
     }
-
-
 
     @Override
     public String getType(Uri uri) {
@@ -201,7 +199,7 @@ public class BookProvider extends ContentProvider {
             case CATEGORY:
                 return AlexandriaContract.CategoryEntry.CONTENT_TYPE;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri);
         }
     }
 
@@ -216,7 +214,7 @@ public class BookProvider extends ContentProvider {
                 if ( _id > 0 ){
                     returnUri = AlexandriaContract.BookEntry.buildBookUri(_id);
                 } else {
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    throw new android.database.SQLException(getContext().getString(R.string.insert_failed)  + uri);
                 }
                 getContext().getContentResolver().notifyChange(AlexandriaContract.BookEntry.buildFullBookUri(_id), null);
                 break;
@@ -226,7 +224,7 @@ public class BookProvider extends ContentProvider {
                 if ( _id > 0 )
                     returnUri = AlexandriaContract.AuthorEntry.buildAuthorUri(values.getAsLong("_id"));
                 else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    throw new android.database.SQLException(getContext().getString(R.string.insert_failed) + uri);
                 break;
             }
             case CATEGORY: {
@@ -234,11 +232,11 @@ public class BookProvider extends ContentProvider {
                 if (_id > 0)
                     returnUri = AlexandriaContract.CategoryEntry.buildCategoryUri(values.getAsLong("_id"));
                 else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    throw new android.database.SQLException(getContext().getString(R.string.insert_failed) + uri);
                 break;
             }
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri);
         }
         return returnUri;
     }
@@ -268,7 +266,7 @@ public class BookProvider extends ContentProvider {
                         selectionArgs);
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri);
         }
         // Because a null deletes all rows
         if (selection == null || rowsDeleted != 0) {
@@ -297,7 +295,7 @@ public class BookProvider extends ContentProvider {
                 break;
 
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(getContext().getString(R.string.unknown_uri) + uri);
         }
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);

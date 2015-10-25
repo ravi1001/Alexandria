@@ -24,15 +24,37 @@
     <string name="action_share">Share</string>
     <string name="back_button">go back</string>
     <string name="share_text">A must read book: </string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="about_text">This application gets book information from a Google API. All titles, cover images, and author information come from there.
-    The original version of this app was built by Sascha Jaschke, and a modified version is given to students in the Udacity Android Nanodegree program. </string>
-
-
-
-    <string name="scan_format" translatable="false">Scan Format</string>
-    <string name="scan_content" translatable="false">Scan Content</string>
+    <string name="book_detail">Book Detail</string>
+    <string name="scan_format">"Scan Format: "</string>
+    <string name="scan_contents">"Scan Contents: "</string>
     <string name="no_rear_camera">This device does not have a rear camera</string>
+    <string name="error">Error:</string>
+    <string name="error_closing_stream">Error closing stream:</string>
+
+
+    <string name="about_text">This application gets book information from a Google API. All titles,
+        cover images, and author information come from there. The original version of this app was
+        built by Sascha Jaschke, and a modified version is given to students in the Udacity Android
+        Nanodegree program.</string>
+
+    <!-- The URI passed to the book content provider is invalid -->
+    <string name="unknown_uri">Unknown uri: </string>
+    <!-- Book content provider failed to insert row into database -->
+    <string name="insert_failed">Failed to insert row into </string>
+    <!-- Prefix to convert ISBN-10 to ISBN-13 number -->
+    <string name="prefix_isbn_13">978</string>
+    <!-- Navigation drawer callback not implemented by activity -->
+    <string name="navigation_callback_not_implemented">Activity must implement NavigationDrawerCallbacks</string>
+    <!-- Key to save/restore EAN value upon configuration change in AddBook fragment -->
+    <string name="ean_add_book_key" translatable="false">Ean Key</string>
+    <!-- Key to save/restore navigation drawer selection position upon configuration change in NavigationDrawer fragment -->
+    <string name="selected_drawer_position_key" translatable="false">Selected drawer position key</string>
+    <!-- Preference navigation drawer on launch key -->
+    <string name="pref_user_learned_drawer_key" translatable="false">Navigation drawer learned key</string>
+    <!-- Preference start fragment key -->
+    <string name="pref_start_fragment_key" translatable="false">Pref start fragment key</string>
+
+
+
 
 </resources>
