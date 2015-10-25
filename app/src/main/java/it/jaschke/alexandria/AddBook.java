@@ -46,8 +46,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mEanEditText != null) {
-            outState.putString(getString(R.string.ean_add_book_key),
-                    mEanEditText.getText().toString());
+            outState.putString(getString(R.string.ean_add_book_key), mEanEditText.getText().toString());
         }
     }
 
@@ -114,6 +113,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             @Override
             public void onClick(View view) {
                 mEanEditText.setText("");
+                mEanEditText.setHint(getString(R.string.input_hint));
             }
         });
 
@@ -125,12 +125,19 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                 bookIntent.setAction(BookService.DELETE_BOOK);
                 getActivity().startService(bookIntent);
                 mEanEditText.setText("");
+                mEanEditText.setHint(getString(R.string.input_hint));
             }
         });
 
         if (savedInstanceState != null) {
             mEanEditText.setText(savedInstanceState.getString(getString(R.string.ean_add_book_key)));
-            mEanEditText.setHint("");
+
+            // Set hint if edit text is empty.
+            if(mEanEditText.getText().length() != 0) {
+                mEanEditText.setHint("");
+            } else {
+                mEanEditText.setHint(getString(R.string.input_hint));
+            }
         }
 
         return mRootView;
