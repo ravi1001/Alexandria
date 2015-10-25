@@ -31,7 +31,6 @@
     <string name="error">Error:</string>
     <string name="error_closing_stream">Error closing stream:</string>
 
-
     <string name="about_text">This application gets book information from a Google API. All titles,
         cover images, and author information come from there. The original version of this app was
         built by Sascha Jaschke, and a modified version is given to students in the Udacity Android
@@ -53,6 +52,9 @@
     <string name="pref_user_learned_drawer_key" translatable="false">Navigation drawer learned key</string>
     <!-- Preference start fragment key -->
     <string name="pref_start_fragment_key" translatable="false">Pref start fragment key</string>
+    <!-- Network is unavailable -->
+    <string name="no_network">Internet connection is unavailable presently. Please check your
+        internet connection and try again.</string>
 
 
 
