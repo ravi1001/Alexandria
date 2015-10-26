@@ -6,6 +6,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
         <ScrollView android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:fillViewport="false"
@@ -51,8 +52,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_alignTop="@+id/fullBookCover"
                     android:layout_toRightOf="@+id/fullBookCover"
-                    android:layout_toEndOf="@+id/fullBookCover"/>
-
+                    android:layout_toEndOf="@+id/fullBookCover"
+                    android:layout_above="@+id/fullBookDesc"/>
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -63,7 +64,6 @@
                     android:layout_below="@+id/fullBookCover"
                     android:layout_margin="10dp"
                     />
-
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -102,7 +102,6 @@
                     android:layout_alignRight="@+id/fullBookTitle"
                     android:layout_alignEnd="@+id/fullBookTitle"/>
 
-
             </RelativeLayout>
 
         </ScrollView>
@@ -125,6 +124,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </FrameLayout>

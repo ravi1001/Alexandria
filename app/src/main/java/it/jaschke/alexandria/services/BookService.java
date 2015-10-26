@@ -108,10 +108,7 @@ public class BookService extends IntentService {
         // Check if internet connection is available.
         if(!isNetworkAvailable()) {
             // No network, send local broadcast to main activity specifying the error message and return.
-            Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-            messageIntent.putExtra(MainActivity.MESSAGE_KEY, getResources().getString(R.string.no_network));
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
-
+            sendLocalBroadcast(getResources().getString(R.string.no_network));
             return;
         }
 
@@ -120,7 +117,6 @@ public class BookService extends IntentService {
         String bookJsonString = null;
 
         try {
-
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, ISBN_PARAM + ean)
                     .build();
@@ -134,6 +130,8 @@ public class BookService extends IntentService {
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
+                // An IO error occurred, send local broadcast to main activity specifying the error message.
+                sendLocalBroadcast(getResources().getString(R.string.io_error));
                 return;
             }
 
@@ -145,12 +143,17 @@ public class BookService extends IntentService {
             }
 
             if (buffer.length() == 0) {
+                // An IO error occurred, send local broadcast to main activity specifying the error message.
+                sendLocalBroadcast(getResources().getString(R.string.io_error));
                 return;
             }
 
             bookJsonString = buffer.toString();
-        } catch (Exception e) {
+        } catch (IOException e) {
             Log.e(LOG_TAG, getApplicationContext().getString(R.string.error), e);
+
+            // An IO error occurred, send local broadcast to main activity specifying the error message.
+            sendLocalBroadcast(getResources().getString(R.string.io_error));
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -165,14 +168,18 @@ public class BookService extends IntentService {
         }
 
         try {
+            // Check if book json string is null.
+            if(bookJsonString == null) {
+                return;
+            }
+
             JSONObject bookJson = new JSONObject(bookJsonString);
             JSONArray bookArray;
             if(bookJson.has(ITEMS)){
                 bookArray = bookJson.getJSONArray(ITEMS);
             }else{
-                Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-                messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.not_found));
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
+                // Book was not found, send local broadcast to main activity specifying the error message.
+                sendLocalBroadcast(getResources().getString(R.string.not_found));
                 return;
             }
 
@@ -206,6 +213,9 @@ public class BookService extends IntentService {
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, getApplicationContext().getString(R.string.error), e);
+
+            // Server returned invalid data, send local broadcast to main activity specifying the error message.
+            sendLocalBroadcast(getResources().getString(R.string.invalid_data_error));
         }
     }
 
@@ -245,5 +255,12 @@ public class BookService extends IntentService {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    // Sends local broadcast to main activity communicating an error condition.
+    private void sendLocalBroadcast(String message) {
+        Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+        messageIntent.putExtra(MainActivity.MESSAGE_KEY, message);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
     }
  }

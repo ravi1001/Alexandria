@@ -53,9 +53,14 @@
     <!-- Preference start fragment key -->
     <string name="pref_start_fragment_key" translatable="false">Pref start fragment key</string>
     <!-- Network is unavailable -->
-    <string name="no_network">Internet connection is unavailable presently. Please check your
-        internet connection and try again.</string>
-
+    <string name="no_network">Could not fetch book information from server as the internet connection
+        is unavailable presently. Please check your internet connection and try again.</string>
+    <!-- IO error occurred -->
+    <string name="io_error">Could not fetch book information from server as an error occurred
+        contacting the server. The server may be down presently.</string>
+    <!-- Invalid data returned from server -->
+    <string name="invalid_data_error">Could not fetch book information from server as the server
+        returned invalid data.</string>
 
 
 
