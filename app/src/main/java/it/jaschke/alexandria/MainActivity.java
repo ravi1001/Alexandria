@@ -82,17 +82,17 @@ public class MainActivity extends ActionBarActivity
                 .replace(R.id.container, nextFragment)
                 .addToBackStack((String) mTitle)
                 .commit();
-    }
 
-    public void setTitle(int titleId) {
-        mTitle = getString(titleId);
-    }
+        // Check if it's in tablet, landscape mode.
+        if(findViewById(R.id.right_container) != null) {
+            // Find if any fragment is loaded.
+            Fragment fragment = fragmentManager.findFragmentById(R.id.right_container);
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+            // If a fragment is loaded remove it.
+            if(fragment != null) {
+                fragmentManager.beginTransaction().remove(fragment).commit();
+            }
+        }
     }
 
     @Override
@@ -147,24 +147,6 @@ public class MainActivity extends ActionBarActivity
                 .commit();
     }
 
-    private class MessageReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra(MESSAGE_KEY)!= null){
-                Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public void goBack(View view){
-        getSupportFragmentManager().popBackStack();
-    }
-
-    private boolean isTablet() {
-        return (getApplicationContext().getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
-
     @Override
     public void onBackPressed() {
         if(getSupportFragmentManager().getBackStackEntryCount() < 2){
@@ -177,5 +159,34 @@ public class MainActivity extends ActionBarActivity
     public void setActionBarTitle(int titleId) {
         setTitle(titleId);
         restoreActionBar();
+    }
+
+    public void goBack(View view){
+        getSupportFragmentManager().popBackStack();
+    }
+
+    public void setTitle(int titleId) {
+        mTitle = getString(titleId);
+    }
+
+    public void restoreActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+    }
+
+    private boolean isTablet() {
+        return (getApplicationContext().getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    private class MessageReciever extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getStringExtra(MESSAGE_KEY)!= null){
+                Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
