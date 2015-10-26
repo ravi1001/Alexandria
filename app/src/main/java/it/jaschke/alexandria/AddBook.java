@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import it.jaschke.alexandria.api.SetActionBarTitle;
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.scanner.BarcodeScannerActivity;
 import it.jaschke.alexandria.services.BookService;
@@ -215,6 +216,12 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.scan);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((SetActionBarTitle) getActivity()).setActionBarTitle(R.string.scan);
     }
 
     @Override

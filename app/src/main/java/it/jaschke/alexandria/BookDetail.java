@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import it.jaschke.alexandria.api.SetActionBarTitle;
 import it.jaschke.alexandria.data.AlexandriaContract;
 import it.jaschke.alexandria.services.BookService;
 import it.jaschke.alexandria.services.DownloadImage;
@@ -142,6 +143,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!MainActivity.IS_TABLET) {
+            ((SetActionBarTitle) getActivity()).setActionBarTitle(R.string.book_detail);
+        }
     }
 
     @Override

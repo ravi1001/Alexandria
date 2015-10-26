@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import it.jaschke.alexandria.api.SetActionBarTitle;
+
 public class About extends Fragment {
 
     public About(){
@@ -24,5 +26,11 @@ public class About extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.about);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((SetActionBarTitle) getActivity()).setActionBarTitle(R.string.about);
     }
 }

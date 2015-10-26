@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
+import it.jaschke.alexandria.api.SetActionBarTitle;
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
+public class MainActivity extends ActionBarActivity
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback, SetActionBarTitle {
 
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
@@ -28,8 +30,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     // Fragment managing the behaviors, interactions and presentation of the navigation drawer.
     private NavigationDrawerFragment mNavigationDrawerFragment;
+
     // Used to store the last screen mTitle. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
+
     private BroadcastReceiver mMessageReciever;
 
     @Override
@@ -167,5 +171,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
             finish();
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void setActionBarTitle(int titleId) {
+        setTitle(titleId);
+        restoreActionBar();
     }
 }

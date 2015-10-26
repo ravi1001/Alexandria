@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import it.jaschke.alexandria.api.BookListAdapter;
 import it.jaschke.alexandria.api.Callback;
+import it.jaschke.alexandria.api.SetActionBarTitle;
 import it.jaschke.alexandria.data.AlexandriaContract;
 
 public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -125,5 +126,11 @@ public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbac
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         activity.setTitle(R.string.books);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((SetActionBarTitle) getActivity()).setActionBarTitle(R.string.books);
     }
 }
