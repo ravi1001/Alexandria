@@ -83,12 +83,10 @@ public class MainActivity extends ActionBarActivity
                 .addToBackStack((String) mTitle)
                 .commit();
 
-        // Check if it's in tablet, landscape mode.
+        // Check if it's in tablet mode.
         if(findViewById(R.id.right_container) != null) {
-            // Find if any fragment is loaded.
+            // Find if book detail fragment is loaded, if so remove it.
             Fragment fragment = fragmentManager.findFragmentById(R.id.right_container);
-
-            // If a fragment is loaded remove it.
             if(fragment != null) {
                 fragmentManager.beginTransaction().remove(fragment).commit();
             }
@@ -141,6 +139,7 @@ public class MainActivity extends ActionBarActivity
         if(findViewById(R.id.right_container) != null){
             id = R.id.right_container;
         }
+
         getSupportFragmentManager().beginTransaction()
                 .replace(id, fragment)
                 .addToBackStack(getString(R.string.book_detail))

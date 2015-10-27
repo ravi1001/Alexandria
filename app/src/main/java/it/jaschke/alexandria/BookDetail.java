@@ -152,12 +152,4 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
             ((SetActionBarTitle) getActivity()).setActionBarTitle(R.string.book_detail);
         }
     }
-
-    @Override
-    public void onPause() {
-        super.onDestroyView();
-        if(MainActivity.IS_TABLET && mRootView.findViewById(R.id.right_container) == null){
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
-    }
 }
