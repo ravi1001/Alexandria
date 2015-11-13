@@ -181,6 +181,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         ((TextView) mRootView.findViewById(R.id.bookSubTitle)).setText(bookSubTitle);
 
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
+        if(authors == null) {
+            authors = "";
+        }
         String[] authorsArr = authors.split(",");
         ((TextView) mRootView.findViewById(R.id.authors)).setLines(authorsArr.length);
         ((TextView) mRootView.findViewById(R.id.authors)).setText(authors.replace(",", "\n"));
@@ -236,9 +239,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
             // Set the scan contents onto the edit text.
             mEanEditText.setText(scanContents);
-
-            Toast.makeText(getActivity(), getString(R.string.scan_format) + scanFormat + "\n"
-                    + getString(R.string.scan_contents) + scanContents, Toast.LENGTH_SHORT).show();
         }
     }
 }
